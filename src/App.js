@@ -1,6 +1,9 @@
 import React from 'react'
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
+import {composeWithDevTools} from 'redux-devtools-extension'
 
 
 import {Switch, Route} from 'react-router-dom'
@@ -9,6 +12,7 @@ import Register from './pages/auth/Register'
 import Home from './pages/Home'
 import Header from './components/nav/Header'
 import RegisterComplete from './pages/auth/RegisterComplete'
+
 
 
 
