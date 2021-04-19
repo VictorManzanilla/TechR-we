@@ -5,6 +5,16 @@ import {Button} from 'antd'
 import { MailOutlined, GoogleOutlined} from '@ant-design/icons'
 import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
+import axios from 'axios'
+
+
+const createOrUpdateUser = async (authToken) => {
+    return await axios.post(`${process.env.REACT_APP_API}/create-or-update-user`, {}, {
+        headers: {
+            authToken,
+        }
+    })
+}
 
 
 
@@ -14,6 +24,7 @@ const Login = ({history}) => {
     const [loading, setLoading] = useState(false)
 
     let dispatch = useDispatch()
+
 
     const {user} = useSelector((state) => ({ ...state}))
 
@@ -30,14 +41,18 @@ const Login = ({history}) => {
         const {user} = result
         const idTokenResult = await user.getIdTokenResult()
 
-        dispatch({
-            type: 'USER_LOGGED_IN',
-            payload: {
-                email: user.email,
-                token: idTokenResult.token,
-            }
-        })
-        history.push("/")
+        createOrUpdateUser(idTokenResult.token)
+        .then( res => console.log('create or update res', res))
+        .catch()
+
+        // dispatch({
+        //     type: 'USER_LOGGED_IN',
+        //     payload: {
+        //         email: user.email,
+        //         token: idTokenResult.token,
+        //     }
+        // })
+        // history.push("/")
        } catch (error) {
         console.log(error)
         toast.error(error.message)
