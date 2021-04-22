@@ -14,7 +14,9 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 
 import {auth} from './firebase'
 import {useDispatch} from 'react-redux'
-
+import {currentUser} from './functions/auth'
+import History from './pages/user/History'
+import UserRoute from './components/routes/UserRoute'
 
 
 
@@ -28,13 +30,23 @@ const App = () => {
             if(user) {
                 const idTokenResult = await user.getIdTokenResult()
                 console.log('user', user)
+
+                currentUser(idTokenResult.token)
+                .then((res) => {
+                console.log('user data', res.data)
                 dispatch({
+                    
                     type: 'USER_LOGGED_IN',
                     payload: {
-                        email: user.email,
+                        name: res.data.name,
+                        email: res.data.email,
                         token: idTokenResult.token,
+                        role: res.data.role,
+                        _id: res.data._id
                     }
                 })
+            })
+            .catch(err => console.log(err))
             }
         })
         //cleanup
@@ -51,6 +63,8 @@ const App = () => {
             <Route exact path="/register" component={Register}/>
             <Route exact path="/register/complete" component={RegisterComplete}/>
             <Route exact path="/forgot/password" component={ForgotPassword}/>
+            <UserRoute exact path="/user/history" component={History}/>
+
         </Switch>
        </>
     )
