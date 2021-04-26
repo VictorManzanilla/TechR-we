@@ -13,7 +13,7 @@ const {user} = useSelector((state) => ({ ...state}))
 
 useEffect(() => {
     if(user && user.token) history.push('/')
-}, [user])
+}, [user, history])
 
 
 const handleSubmit = async (e) => {
@@ -28,7 +28,7 @@ const handleSubmit = async (e) => {
         setEmail('')
         setLoading(false)
         toast.success('Check your email to reset password!')
-    }) .catch((error) =>{
+    }).catch((error) =>{
         setLoading(false)
         toast.error(error.message)
     })
