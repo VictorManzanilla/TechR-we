@@ -34,7 +34,8 @@ const Header = () => {
     return (
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
           <Menu.Item key="home" icon={<BankOutlined />}>
-            <Link to="/"> Home - {JSON.stringify(user)}</Link>
+          {/* {JSON.stringify(user)} */}
+            <Link to="/"> Home </Link>
           </Menu.Item>
 
           { !user && (
@@ -47,7 +48,7 @@ const Header = () => {
           )}
           
           { !user && (
-            <Menu.Item ko7ky--7
+            <Menu.Item 
             key="login" 
             icon={<UserOutlined />} 
             className="float-right">
@@ -61,9 +62,21 @@ const Header = () => {
           title={user.email && user.email.split('@')[0]} 
           className="float-right"
           >
-            <Menu.Item key="setting:1">Option 1</Menu.Item>
-            <Menu.Item key="setting:2">Option 2</Menu.Item>
-            <Menu.Item icon={<LogoutOutlined />} onClick={logout}>Logout</Menu.Item>
+
+          {user && user.role === 'subscriber' && 
+            <Menu.Item>
+              <Link to="/user/history">Dashboard</Link>
+            </Menu.Item>
+          }
+
+          {user && user.role === 'admin' && 
+            <Menu.Item>
+              <Link to="/admin/dashboard">Dashboard</Link>
+            </Menu.Item>
+          }
+
+
+          <Menu.Item icon={<LogoutOutlined />} onClick={logout}>Logout</Menu.Item>
           </SubMenu>
           )}
           
