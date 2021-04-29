@@ -11,13 +11,13 @@ import {createOrUpdateUser} from '../../functions/auth'
 
 const Login = ({history}) => {
     const [email, setEmail] = useState("vmanzanilla7@gmail.com")
-    const [password, setPassword] = useState("zzzzzz")
+    const [password, setPassword] = useState("123456")
     const [loading, setLoading] = useState(false)
 
     let dispatch = useDispatch()
 
     const roleBasedRedirect = (res) => {
-        if(res.data.role === "admin") {
+        if(res.data.role === 'admin') {
             history.push('/admin/dashboard')
         } else {
             history.push('/user/history')
