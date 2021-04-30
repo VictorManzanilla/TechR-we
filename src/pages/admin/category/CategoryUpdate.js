@@ -2,25 +2,34 @@ import React, {useState, useEffect} from 'react'
 import AdminNav from '../../../components/nav/AdminNav'
 import {toast} from 'react-toastify'
 import {useSelector} from 'react-redux'
-import {createCategory, getCategories, removeCategory} from '../../../functions/category'
-import {Link} from 'react-router-dom'
-import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
+import {getCategory, updateCategory} from '../../../functions/category'
+
+
+//you can get slug this way or through match
+//I used match instead because through match i get params directly
+// import {useParams} from 'react-router-dom'
+// let {slug} = useParams()
+//     useEffect(() => {
+//         console.log(slug)
+//     }, [])
 
 
 
-const CategoryCreate = () => {
+const CategoryUpdate = ({history, match}) => {
     //redux
     const {user} = useSelector((state) => ({ ...state}))
 
     const [name, setName] = useState("")
     const [loading, setLoading] = useState(false)
-    const [categories, setCategories] = useState([])
-
+   
+  
     useEffect(() => {
-        loadCategories()
+        loadCategory()
     }, [])
 
-    const loadCategories = () => getCategories().then((c) => setCategories(c.data))
+    const loadCategory = () => 
+    getCategory(match.params.slug)
+    .then((c) => setName(c.data.name))
 
 
 
@@ -28,12 +37,13 @@ const CategoryCreate = () => {
         e.preventDefault()
         // console.log(name)
         setLoading(true)
-        createCategory({name}, user.token)
+        updateCategory(match.params.slug, {name}, user.token)
         .then(res => {
             setLoading(false)
             setName('')
-            toast.success(`'${res.data.name}' is created!`)
-            loadCategories()
+            toast.success(`'${res.data.name}' is updated!`)
+            history.push('/admin/category')
+           
         })
         .catch(err => {
             console.log(err)
@@ -42,20 +52,7 @@ const CategoryCreate = () => {
         })
     }
 
-    const handleRemove = async(slug) => {
-        if(window.confirm("Delete?")) {
-            setLoading(true)
-            removeCategory(slug, user.token)
-            .then(res => {
-                setLoading(false)
-                toast.error(`${res.data.name} deleted`)
-                loadCategories()
-            })
-            .catch(err => {
-                if (err.response.status === 400) toast.error(err.response.data)
-            })
-        }
-    }
+
 
     const categoryForm = () => (
         <form onSubmit={handleSubmit}>
@@ -85,21 +82,10 @@ const CategoryCreate = () => {
             <div className='col'> 
             {loading ? (<h4 className="text-danger">Loading...</h4>)
             :
-            (<h4>Create Category</h4>)}
+            (<h4>Update Category</h4>)}
             {categoryForm()}
             <br/>
-            {categories.map((c) => (
-            <div className="alert alert-primary" key={c._id}>
-            {c.name} 
-            <span onClick={() => handleRemove(c.slug)} 
-            className="btn btn-sm float-right">
-                <DeleteOutlined className="text-danger"/>
-                </span> 
-            <Link to={`/admin/category/${c.slug}`}> 
-            <span className="btn btn-sm float-right">
-                <EditOutlined className="text-warning"/>
-                </span></Link>
-            </div>))}
+            
             </div>
 
         </div>
@@ -108,4 +94,4 @@ const CategoryCreate = () => {
     )
 }
 
-export default CategoryCreate
+export default CategoryUpdate
