@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux'
 import {createCategory, getCategories, removeCategory} from '../../../functions/category'
 import {Link} from 'react-router-dom'
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
+import CategoryForm from '../../../components/forms/CategoryForm'
 
 
 
@@ -57,25 +58,7 @@ const CategoryCreate = () => {
         }
     }
 
-    const categoryForm = () => (
-        <form onSubmit={handleSubmit}>
-            <div className="form-control">
-                <label>Name</label>
-                <input
-                type="text"
-                className="form-control"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                autoFocus
-                required
-                />
-                <br/>
-                <button className="btn btn-outline-primary"> Save </button>
-
-            </div>
-
-        </form>
-    )
+    
     return(
         <div className='container-fluid'>
         <div className='row'>
@@ -86,7 +69,7 @@ const CategoryCreate = () => {
             {loading ? (<h4 className="text-danger">Loading...</h4>)
             :
             (<h4>Create Category</h4>)}
-            {categoryForm()}
+            <CategoryForm handleSubmit={handleSubmit}name={name} setName={setName}/>
             <br/>
             {categories.map((c) => (
             <div className="alert alert-primary" key={c._id}>
