@@ -24,6 +24,7 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminRoute from './components/routes/AdminRoute'
 import CategoryCreate from './pages/admin/category/CategoryCreate'
 import CategoryUpdate from './pages/admin/category/CategoryUpdate'
+import SubCategory from './pages/admin/category/subcategory/SubCreate'
 
 
 
@@ -76,6 +77,7 @@ const App = () => {
             <AdminRoute exact path="/admin/dashboard" component={AdminDashboard}/>
             <AdminRoute exact path="/admin/category" component={CategoryCreate}/>
             <AdminRoute exact path="/admin/category/:slug" component={CategoryUpdate}/>
+            <AdminRoute exact path="/admin/sub" component={SubCategory}/>
 
 
 
