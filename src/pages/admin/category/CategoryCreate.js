@@ -6,6 +6,7 @@ import {createCategory, getCategories, removeCategory} from '../../../functions/
 import {Link} from 'react-router-dom'
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
 import CategoryForm from '../../../components/forms/CategoryForm'
+import FilterCategory from '../../../components/forms/FilterCategory'
 
 
 
@@ -16,6 +17,9 @@ const CategoryCreate = () => {
     const [name, setName] = useState("")
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([])
+    //step 1 filter method in forms-
+    const [keyword, setKeyword] = useState('')
+
 
     useEffect(() => {
         loadCategories()
@@ -58,6 +62,11 @@ const CategoryCreate = () => {
         }
     }
 
+   
+
+    //step 4
+    const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
+
     
     return(
         <div className='container-fluid'>
@@ -71,7 +80,10 @@ const CategoryCreate = () => {
             (<h4>Create Category</h4>)}
             <CategoryForm handleSubmit={handleSubmit}name={name} setName={setName}/>
             <br/>
-            {categories.map((c) => (
+            <FilterCategory keyword={keyword}  setKeyword={setKeyword}/>
+            
+            {/* step 5 */}
+            {categories.filter(searched(keyword)).map((c) => (
             <div className="alert alert-primary" key={c._id}>
             {c.name} 
             <span onClick={() => handleRemove(c.slug)} 
