@@ -17,7 +17,7 @@ const CategoryCreate = () => {
     const [name, setName] = useState("")
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([])
-    //step 1 filter method in forms-
+    //step 1 filter method in forms-FilterCategory
     const [keyword, setKeyword] = useState('')
 
 
