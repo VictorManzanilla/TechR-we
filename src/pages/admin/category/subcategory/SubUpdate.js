@@ -11,7 +11,7 @@ import { getCategories } from '../../../../functions/category'
 
 
 
-const SubCreate = () => {
+const SubUpdate = () => {
     //redux
     const {user} = useSelector((state) => ({ ...state}))
 
@@ -81,7 +81,7 @@ const SubCreate = () => {
             <div className='col'> 
             {loading ? (<h4 className="text-danger">Loading...</h4>)
             :
-            (<h4>Create Sub Category</h4>)}
+            (<h4>Update Sub Category</h4>)}
             <br/>
 
             <div className="form-group">
@@ -123,5 +123,5 @@ const SubCreate = () => {
     )
 }
 
-export default SubCreate
+export default SubUpdate
 
