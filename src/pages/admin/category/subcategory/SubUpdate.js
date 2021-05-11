@@ -2,47 +2,47 @@ import React, {useState, useEffect} from 'react'
 import AdminNav from '../../../../components/nav/AdminNav'
 import {toast} from 'react-toastify'
 import {useSelector} from 'react-redux'
-import {createSub, getSubs, removeSub} from '../../../../functions/sub'
+import {updateSub, getSub, } from '../../../../functions/sub'
 import {Link} from 'react-router-dom'
 import {EditOutlined, DeleteOutlined} from '@ant-design/icons'
 import CategoryForm from '../../../../components/forms/CategoryForm'
-import FilterCategory from '../../../../components/forms/FilterCategory'
 import { getCategories } from '../../../../functions/category'
 
 
 
-const SubUpdate = () => {
+const SubUpdate = ({match, history}) => {
     //redux
     const {user} = useSelector((state) => ({ ...state}))
 
     const [name, setName] = useState("")
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([])
-    const [category, setCategory] = useState("")
-    const [subs, setSubs] = useState([])
-    //step 1 filter method in forms-FilterCategory
-    const [keyword, setKeyword] = useState('')
-
+    const [parent, setParent] = useState('')
 
     useEffect(() => {
         loadCategories()
-        loadSubs()
+        loadSub()
     }, [])
 
     const loadCategories = () => getCategories().then((c) => setCategories(c.data))
 
-    const loadSubs = () => getSubs().then((c) => setSubs(c.data))
+    const loadSub = () => 
+    getSub(match.params.slug).then((s) => {
+    setName(s.data.name)
+    setParent(s.data.parent)
+})
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
         // console.log(name)
         setLoading(true)
-        createSub({name, parent: category}, user.token)
+        updateSub(match.params.slug, {name, parent}, user.token)
         .then(res => {
             setLoading(false)
             setName('')
-            toast.success(`'${res.data.name}' is created!`)
-            loadSubs()
+            toast.success(`'${res.data.name}' is updated!`)
+            history.push('/admin/sub')
         })
         .catch(err => {
             console.log(err)
@@ -51,26 +51,10 @@ const SubUpdate = () => {
         })
     }
 
-    const handleRemove = async(slug) => {
-        if(window.confirm("Delete?")) {
-            setLoading(true)
-            removeSub(slug, user.token)
-            .then(res => {
-                setLoading(false)
-                toast.error(`${res.data.name} deleted`)
-               loadSubs()
-            })
-            .catch(err => {
-                if (err.response.status === 400) toast.error(err.response.data)
-            })
-        }
-    }
 
    
 
-    //step 4
-    const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword)
-
+   
     
     return(
         <div className='container-fluid'>
@@ -89,32 +73,19 @@ const SubUpdate = () => {
                 <select 
                 name="category" 
                 className="form-control"
-                onChange={(e) => setCategory(e.target.value)}
+                onChange={(e) => setParent(e.target.value)}
                 >
                     <option>Please select</option>
                     {categories.length > 0 && categories.map((category) => 
-                    (<option key={category._id} value={category._id}>{category.name}</option>))}
+                    (<option key={category._id} value={category._id} selected={category._id === parent}>{category.name}</option>))}
                 </select>
             </div>
            
             <br/>
             <CategoryForm handleSubmit={handleSubmit}name={name} setName={setName}/>
             <br/>
-            <FilterCategory keyword={keyword}  setKeyword={setKeyword}/>
             
-            {/* step 5 */}
-            {subs.filter(searched(keyword)).map((sub) => (
-            <div className="alert alert-primary" key={sub._id}>
-            {sub.name} 
-            <span onClick={() => handleRemove(sub.slug)} 
-            className="btn btn-sm float-right">
-                <DeleteOutlined className="text-danger"/>
-                </span> 
-            <Link to={`/admin/sub/${sub.slug}`}> 
-            <span className="btn btn-sm float-right">
-                <EditOutlined className="text-warning"/>
-                </span></Link>
-            </div>))}
+           
             </div>
 
         </div>
