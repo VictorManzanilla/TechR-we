@@ -34,6 +34,10 @@ const ProductCreate = () => {
 
     }
 
+    const handleChange = (e) => {
+        
+    }
+
     return(
         <div className='container-fluid'>
         <div className='row'>
@@ -106,7 +110,22 @@ const ProductCreate = () => {
                     onChange={handleChange}
                     >
                  <option>Please Select</option> 
-                 <option value='Yes'>Yes</option>        
+                    {colors.map(c => <option key={c} value={c}>
+                        {c}
+                    </option>)}     
+                    </select>
+                </div>
+                <div className='form-group'>
+                    <label>Brand</label>
+                    <select
+                    name="brand"
+                    className='form-control'
+                    onChange={handleChange}
+                    >
+                 <option>Please Select</option> 
+                    {brands.map(b => <option key={b} value={b}>
+                        {b}
+                    </option>)}     
                     </select>
                 </div>
 
