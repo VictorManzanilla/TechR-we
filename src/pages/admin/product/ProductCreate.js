@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import AdminNav from '../../../components/nav/AdminNav'
 import {toast} from 'react-toastify'
 import {useSelector} from 'react-redux'
-import {createProduct} from '../../../functions/category'
+import {createProduct} from '../../../functions/product'
 
 const initialState = {
     title: '',
@@ -26,16 +26,27 @@ const initialState = {
 const ProductCreate = () => {
     const [values, setValues] = useState(initialState)
 
+    //redux
+    const {user} = useSelector((state) => ({ ...state}))
+
     //destructure
     const {title, description, price, category, subs, shipping, quantity, images, colors, brands, color, brand} = values
 
     const handleSubmit = (e) => {
         e.preventdefault()
-
+        createProduct(values, user.token)
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+            if (err.response.status ===4000) toast.error(err.response.data)
+        })
     }
 
     const handleChange = (e) => {
-        
+        setValues({ ...values, [e.target.name]: e.target.value})
+        // console.log(e.target.name, '----------', e.target.value)
     }
 
     return(
@@ -128,7 +139,8 @@ const ProductCreate = () => {
                     </option>)}     
                     </select>
                 </div>
-
+                <br/>
+                        <button className='btn btn-outline-info'>Save</button>
             </form>
             </div>
 
