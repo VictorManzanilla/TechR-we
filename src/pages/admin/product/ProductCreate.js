@@ -37,6 +37,7 @@ const ProductCreate = () => {
         createProduct(values, user.token)
         .then((res) => {
             console.log(res)
+            window.alert(`${res.data.title}`)
         })
         .catch((err) => {
             console.log(err)
