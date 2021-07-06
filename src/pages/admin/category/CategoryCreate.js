@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, {useState, useEffect} from 'react'
 import AdminNav from '../../../components/nav/AdminNav'
 import {toast} from 'react-toastify'
@@ -23,6 +24,7 @@ const CategoryCreate = () => {
 
     useEffect(() => {
         loadCategories()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const loadCategories = () => getCategories().then((c) => setCategories(c.data))
