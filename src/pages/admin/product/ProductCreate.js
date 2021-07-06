@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux'
 import {createProduct} from '../../../functions/product'
 
 const initialState = {
-         title: 'Iphone 13',
+        title: 'Iphone 14',
         description: 'New model',
         price: '1000',
         categories: [],
@@ -16,8 +16,8 @@ const initialState = {
         images: [],
         colors: ["Black", 'Brown', 'Silver', 'White', 'Blue'],
         brands: ["Apple", 'Microsoft', 'Lenovo', 'Samsung', 'ASUS'],
-        color: 'White',
-        brand: 'Apple'
+        color: '',
+        brand: ''
     
 }
 
@@ -30,19 +30,26 @@ const ProductCreate = () => {
     const {user} = useSelector((state) => ({ ...state}))
 
     //destructure
-    const {title, description, price, category, subs, shipping, quantity, images, colors, brands, color, brand} = values
+    const {title, description, price, category, subs, shipping, quantity, images, colors, brands, color, brand,} = values
 
     const handleSubmit = (e) => {
+       
         e.preventdefault()
+
         createProduct(values, user.token)
+        
         .then((res) => {
+        
             console.log(res)
+            
             window.alert(`'${res.data.title}' is created`)
             window.location.reload()
+    
         })
         .catch((err) => {
             console.log(err)
-            if (err.response.status ===4000) toast.error(err.response.data)
+            // if (err.response.status === 4000) toast.error(err.response.data)
+            toast.error(err.message.data.err)
         })
     }
 
@@ -59,6 +66,7 @@ const ProductCreate = () => {
             </div>
             <div className='col-md-10'> 
             <h4> Product create Page</h4>
+            
             <br/>
             
             <form onSubmit={handleSubmit}>

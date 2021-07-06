@@ -40,11 +40,11 @@ const App = () => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if(user) {
                 const idTokenResult = await user.getIdTokenResult()
-                console.log('user', user)
+                // console.log('user', user)
 
                 currentUser(idTokenResult.token)
                 .then((res) => {
-                console.log('user data', res.data)
+                // console.log('user data', res.data)
                 dispatch({
                     
                     type: 'USER_LOGGED_IN',
@@ -83,7 +83,7 @@ const App = () => {
             <AdminRoute exact path="/admin/sub" component={SubCreate}/>
             <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate}/>
             <AdminRoute exact path="/admin/product" component={ProductCreate}/>
-
+            
 
 
 
