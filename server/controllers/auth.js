@@ -1,0 +1,28 @@
+//controllers are made to move the code from routes - auth file to here to make the code less clutter in the auth file
+//because we are going to make more routes. 
+
+const User = require('../models/user')
+
+exports.createOrUpdateUser = async (req, res) => {
+   const { name, picture, email} = req.user
+
+   const user = await User.findOneAndUpdate({email}, {name: email.split('@')[0], picture}, {new:true})
+
+   if(user) {
+       console.log('user updated', user)
+       res.json(user)
+   } else {
+       const newUser = await new User({
+           email, name: email.split('@')[0], picture,
+       }).save()
+       console.log('user created', newUser)
+       res.json(newUser)
+   }
+}
+
+exports.currentUser = async (req, res) => {
+    User.findOne({email: req.user.email}).exec((err, user) => {
+        if(err) throw new Error(err)
+        res.json(user)
+    })
+}
