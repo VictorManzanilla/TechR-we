@@ -4,6 +4,9 @@ import {toast} from 'react-toastify'
 import {useSelector} from 'react-redux'
 import {createProduct} from '../../../functions/product'
 import ProductCreateForm from '../../../components/forms/ProductCreateForm'
+import {getCategories} from '../../../functions/category'
+
+
 
 const initialState = {
         title: 'Iphone 14',
@@ -29,6 +32,13 @@ const ProductCreate = () => {
 
     //redux
     const {user} = useSelector((state) => ({ ...state}))
+    
+    useEffect(() => {
+        loadCategories()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const loadCategories = () => getCategories().then((c) => setValues({...values, categories: c.data}))
 
     
     const handleSubmit = (e) => {
@@ -36,6 +46,7 @@ const ProductCreate = () => {
         e.preventdefault()
 
         createProduct(values, user.token)
+    
         
         .then((res) => {
         
@@ -54,7 +65,7 @@ const ProductCreate = () => {
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value})
-        // console.log(e.target.name, '----------', e.target.value)
+        //  console.log(e.target.name, '----------', e.target.value)
     }
 
     return(
@@ -66,6 +77,7 @@ const ProductCreate = () => {
             <div className='col-md-10'> 
             <h4> Product create Page</h4>
              <br/>
+             
             <ProductCreateForm 
             handleSubmit={handleSubmit} 
             handleChange={handleChange}

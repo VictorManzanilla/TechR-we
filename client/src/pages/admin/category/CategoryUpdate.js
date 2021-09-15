@@ -26,7 +26,8 @@ const CategoryUpdate = ({history, match}) => {
   
     useEffect(() => {
         loadCategory()
-    }, [])
+    }, [loading]) 
+    // only re-render if loading changes
 
     const loadCategory = () => 
     getCategory(match.params.slug)

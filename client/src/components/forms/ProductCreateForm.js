@@ -2,7 +2,7 @@ import React from 'react'
 
 const ProductCreateForm = ({handleSubmit, handleChange, values}) => {
 //destructure
-const {title, description, price, category, subs, shipping, quantity, images, colors, brands, color, brand,} = values
+const {title, description, price, category, categories, subs, shipping, quantity, images, colors, brands, color, brand,} = values
 
 
 return(
@@ -86,7 +86,20 @@ return(
                     </option>)}     
                     </select>
                 </div>
-                <br/>
+
+                <div className="form-group">
+                <label> Category</label>
+                <select 
+                name="category" 
+                className="form-control"
+                onChange={handleChange}
+                >
+                    <option>Please select</option>
+                    {categories.length > 0 && categories.map((category) => 
+                    (<option key={category._id} value={category._id}>{category.name}</option>))}
+                </select>
+            </div>
+            <br/>
                         <button className='btn btn-outline-info'>Save</button>
             </form>
 )
