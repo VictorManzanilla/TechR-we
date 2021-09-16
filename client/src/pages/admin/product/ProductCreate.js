@@ -11,7 +11,7 @@ import {getCategories} from '../../../functions/category'
 const initialState = {
         title: 'Iphone 14',
         description: 'New model',
-        price: '1000',
+        price: '4',
         categories: [],
         category: '',
         subs: [],
@@ -46,7 +46,7 @@ const ProductCreate = () => {
         e.preventdefault()
 
         createProduct(values, user.token)
-    
+        
         
         .then((res) => {
         

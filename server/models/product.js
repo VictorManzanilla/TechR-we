@@ -8,45 +8,47 @@ const productSchema = new mongoose.Schema({
         trim: true,
         required: true,
         maxlenght: 32,
-        text: true
+        text: true,
     },
     slug: {
         type: String,
         unique: true,
         lowercase: true,
-        index: true
+        index: true,
     },
     description: {
         type: String,
         trim: true,
         required: true,
         maxlenght: 32,
-        text: true
+        text: true,
     },
     price: {
         type: Number,
         trim: true,
         required: true,
         maxlenght: 32,
-        text: true
+        text: true,
     },
     category: {
         type: ObjectId,
-        ref: 'Category'
+        ref: 'Category',
     },
     // subs: [
     //     {
     //         type: ObjectId,
-    //         ref: 'Sub'
+    //         ref: 'Sub',
     //     },
     // ],
-    quantity: Number,
+    quantity: {
+       type: Number,
+    },
     sold: {
         type: Number,
     default: 0
     },
     // images: {
-    //     type: Array
+    //     type: Array,
     // },
     shipping: {
         type: String,
@@ -66,7 +68,8 @@ const productSchema = new mongoose.Schema({
 //             postedBy: {type: ObjectId, ref: 'User'},
 //         },
 // ],
-}, {timestamps: true}
-)
+}, {
+    timestamps: true
+})
 
 module.exports = mongoose.model('Product', productSchema)
