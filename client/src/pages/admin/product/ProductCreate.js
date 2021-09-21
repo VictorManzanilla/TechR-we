@@ -21,7 +21,7 @@ const initialState = {
         colors: ["Black", 'Brown', 'Silver', 'White', 'Blue'],
         brands: ["Apple", 'Microsoft', 'Lenovo', 'Samsung', 'ASUS'],
         color: '',
-        brand: ''
+        brand: '',
     
 }
 
@@ -29,26 +29,28 @@ const initialState = {
 
 const ProductCreate = () => {
     const [values, setValues] = useState(initialState)
-
+    
+    //product list component to render the products to practice, use hooks products and load
+    
     //redux
     const {user} = useSelector((state) => ({ ...state}))
     
     useEffect(() => {
+        
         loadCategories()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
     }, [])
 
     const loadCategories = () => getCategories().then((c) => setValues({...values, categories: c.data}))
 
-    
+    // 
     const handleSubmit = (e) => {
-       
         e.preventdefault()
-
+        
         createProduct(values, user.token)
         
         
-        .then((res) => {
+        .then(res => {
         
             console.log(res)
             
@@ -58,7 +60,7 @@ const ProductCreate = () => {
         })
         .catch((err) => {
             console.log(err)
-            // if (err.response.status === 4000) toast.error(err.response.data)
+            if (err.response.status === 4000) toast.error(err.response.data)
             toast.error(err.message.data.err)
         })
     }
@@ -77,7 +79,7 @@ const ProductCreate = () => {
             <div className='col-md-10'> 
             <h4> Product create Page</h4>
              <br/>
-             
+            
             <ProductCreateForm 
             handleSubmit={handleSubmit} 
             handleChange={handleChange}

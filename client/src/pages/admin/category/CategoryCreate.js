@@ -33,7 +33,7 @@ const CategoryCreate = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        // console.log(name)
+         console.log(name)
         setLoading(true)
         createCategory({name}, user.token)
         .then(res => {
