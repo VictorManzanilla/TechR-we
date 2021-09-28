@@ -7,3 +7,6 @@ export const createProduct = async (product, authToken) =>
              authToken,
          }
      })
+
+     export const getProducts = async () => 
+     await axios.get(`${process.env.REACT_APP_API}/products`)

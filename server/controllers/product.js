@@ -3,7 +3,7 @@ const slugify = require('slugify')
 
 exports.create = async (req, res) => {
     try {
-        console.log(req.body)
+        // console.log(req.body)
         req.body.slug = slugify(req.body.title)
         const newProduct = await new Product(req.body).save()
         res.json(newProduct)
@@ -16,7 +16,7 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.read = async(req, res) => {
+exports.list = async(req, res) => {
     let products = await Product.find({}).populate('category')
     res.json(products)
 }

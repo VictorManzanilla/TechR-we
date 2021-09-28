@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react'
 import AdminNav from '../../../components/nav/AdminNav'
 import {toast} from 'react-toastify'
 import {useSelector} from 'react-redux'
-import {createProduct} from '../../../functions/product'
+import {createProduct, getProducts} from '../../../functions/product'
 import ProductCreateForm from '../../../components/forms/ProductCreateForm'
 import {getCategories} from '../../../functions/category'
-
+import Products from './Products'
 
 
 const initialState = {
@@ -29,6 +29,7 @@ const initialState = {
 
 const ProductCreate = () => {
     const [values, setValues] = useState(initialState)
+    const [products, setProducts] = useState([])
     
     //product list component to render the products to practice, use hooks products and load
     
@@ -38,15 +39,16 @@ const ProductCreate = () => {
     useEffect(() => {
         
         loadCategories()
-     
+        loadProducts()
     }, [])
 
     const loadCategories = () => getCategories().then((c) => setValues({...values, categories: c.data}))
+    const loadProducts = () => getProducts().then((p) => setProducts(p.data))
 
     // 
     const handleSubmit = (e) => {
         e.preventdefault()
-        
+        console.log(values)
         createProduct(values, user.token)
         
         
@@ -85,10 +87,9 @@ const ProductCreate = () => {
             handleChange={handleChange}
             values={values}
             />
-            
             </div>
-
         </div>
+        <Products/>
         </div>
     )
 

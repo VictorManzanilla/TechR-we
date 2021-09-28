@@ -5,11 +5,14 @@ const router = express.Router()
 const {authCheck, adminCheck} = require('../middlewares/auth')
 
 //controller
-const {create, read} = require('../controllers/product')
+const {create, list} = require('../controllers/product')
 
 //routes
 router.post('/product', authCheck, adminCheck, create)
-router.get('/products', read)
+// changing router.get('/products', read) to router.get('/products', list)
+
+
+router.get('/products', list)
 
 
 module.exports = router
