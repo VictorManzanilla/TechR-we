@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux'
 import {createProduct, getProducts} from '../../../functions/product'
 import ProductCreateForm from '../../../components/forms/ProductCreateForm'
 import {getCategories} from '../../../functions/category'
-import Products from './Products'
+
 
 
 const initialState = {
@@ -48,7 +48,7 @@ const ProductCreate = () => {
     // 
     const handleSubmit = (e) => {
         e.preventdefault()
-        console.log(values)
+        
         createProduct(values, user.token)
         
         
@@ -89,7 +89,9 @@ const ProductCreate = () => {
             />
             </div>
         </div>
-        <Products/>
+        
+        
+        
         </div>
     )
 
