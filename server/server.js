@@ -16,7 +16,7 @@ const app = express()
 mongoose.connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false, //default true, so maybe change this so maybe the frontend will send the info to the backend
+    useFindAndModify: false, //default true, so maybe change this so the frontend will send the info to the backend
     useUnifiedTopology: true
 })
 .then(() => console.log('DB CONNECTED')) 

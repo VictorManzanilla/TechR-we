@@ -20,8 +20,8 @@ const initialState = {
         images: [],
         colors: ["Black", 'Brown', 'Silver', 'White', 'Blue'],
         brands: ["Apple", 'Microsoft', 'Lenovo', 'Samsung', 'ASUS'],
-        color: '',
-        brand: '',
+        color: 'white',
+        brand: 'Apple',
     
 }
 
@@ -29,41 +29,43 @@ const initialState = {
 
 const ProductCreate = () => {
     const [values, setValues] = useState(initialState)
-    const [products, setProducts] = useState([])
+    // const [products, setProducts] = useState([])
     
     //product list component to render the products to practice, use hooks products and load
     
     //redux
     const {user} = useSelector((state) => ({ ...state}))
-    
-    useEffect(() => {
-        
-        loadCategories()
-        loadProducts()
-    }, [])
+    // const loadCategories = () => getCategories().then((c) => setValues({...values, categories: c.data}))
 
-    const loadCategories = () => getCategories().then((c) => setValues({...values, categories: c.data}))
-    const loadProducts = () => getProducts().then((p) => setProducts(p.data))
+    
+    // useEffect(() => {
+        
+    //     loadCategories()
+        
+    //     // loadProducts()
+    // }, [loadCategories])
+
+    // const loadProducts = () => getProducts().then((p) => setProducts(p.data))
 
     // 
     const handleSubmit = (e) => {
-        e.preventdefault()
+        e.preventDefault()
         
         createProduct(values, user.token)
         
         
-        .then(res => {
+        .then((res) => {
         
             console.log(res)
             
-            window.alert(`'${res.data.title}' is created`)
+            window.alert(`"${res.data.title}" is created`)
             window.location.reload()
     
         })
         .catch((err) => {
             console.log(err)
-            if (err.response.status === 4000) toast.error(err.response.data)
-            toast.error(err.message.data.err)
+            // if (err.response.status === 4000) toast.error(err.response.data)
+            toast.error(err.response.data.err)
         })
     }
 

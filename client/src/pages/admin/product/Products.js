@@ -14,7 +14,7 @@ const Products = () => {
             <div className='col-md-10'> 
             <h1> All Products </h1>
              <br/>
-             <ProductCreate products={products}/>
+             <ProductCreate />
             </div>
             </div>
             
